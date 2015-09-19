@@ -84,7 +84,7 @@ function xs_all_faqs_get_category_tree($catID){
         $query = new WP_Query($queryArgs);
         if($query->found_posts > 0){
             //$url = get_term_link($cat, 'category')
-            $url = '/category-faq?category='.$cat->slug;
+            $url = '/category-faq?wpv-category='.$cat->slug;
             $results[] = array('id'=>$cat->term_id, 'description'=>$cat->description, 'name'=>$cat->name, 'count'=>$query->found_posts, 'url'=>$url);
         }
     }
@@ -97,7 +97,7 @@ function xs_all_faqs_format_result($title, array $data) {
     if (empty($data))
         return '';
 
-    $res = '<div class="xs-all-faqs" style="background-color:green;">';
+    $res = '<div class="xs-all-faqs"">';
     $res .= '<h3 style="text-align:left;">' . $title . '</h3>';
     foreach ($data as $category) {
         if($category['count'] > 0 || count($category['children']) > 0){
