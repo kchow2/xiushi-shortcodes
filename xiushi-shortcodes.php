@@ -98,24 +98,42 @@ function xs_all_faqs_format_result($title, array $data) {
         return '';
 
     $res = '<div class="xs-all-faqs"">';
-    $res .= '<h3 style="text-align:left;">' . $title . '</h3>';
+    $res .= '<div class="row hr-content-block">';
+    
+    //$res .= '<h3>' . $title . '</h3>';
     foreach ($data as $category) {
         if($category['count'] > 0 || count($category['children']) > 0){
-            $res .= '<h4 style="text-align:left;">' . $category['description'] . ' (' . $category['count'] . ')</h4>';
             if(isset($category['children'])){
-                $res .= '<ul>';
+                $res .= '<div class="col-sm-6">';
+                $res .= '<h3>' . $category['name'] . ' (' . $category['count'] . ')</h3>';
+                //$res .= '<ul>';
+                $res .= '<div class="hr-subcategory-list">';
                 foreach($category['children'] as $category){
-                    $res .= '<li>';
+                    //$res .= '<li>';
+                    $res .= '<div class="hr-subcategory-list-item"><span class="dashicons dashicons-marker hr-dashicon-category" style="color: #CDDC39;line-height: 22px;margin-right: 2px; font-size: 15px;"></span>';
                     $res .= '<a href="' . $category['url'].'">';
-                    $res .= $category['description'] . ' (' . $category['count'] . ')';
-                    $res .= '</a>';
-                    $res .= '</li>';
+                    $res .= $category['name'] . ' | <span style="font-size: 0.8em">' . $category['description'] . ' (' . $category['count'] . ')</span>';
+                    $res .= '</a>';  
+                    $res .= '</div>';
+                    //$res .= '</li>';
                 }
-                $res .= '</ul>';
+                // $res .= '</ul>';
+                $res .= '</div>';//<div class="hr-subcategory-list">
+                $res .= '</div>';//<div class="col-sm-6">
             }
         }
     }
+    /*
+     * <div class="row hr-content-block">
+    <div class="col-sm-6">  (6 columns)
+              <h3>parent taxonomy title</h3>
+              <div class="hr-subcategory-list-item"><span class="dashicons dashicons-marker hr-dashicon-category"></span>[wpv-taxonomy-link] | <span style="font-size: 0.8em">[wpv-taxonomy-description]</span>
+          </div>
+              
+            </div>
+     */
     
+    $res .= '</div>';//<div class="row hr-content-block">
     $res .= '</div>';//class="xs-all-faqs"
     return $res;
 }
