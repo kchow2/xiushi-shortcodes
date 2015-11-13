@@ -84,7 +84,7 @@ function xs_all_faqs_get_category_tree($catID){
         $query = new WP_Query($queryArgs);
         if($query->found_posts > 0){
             //$url = get_term_link($cat, 'category')
-            $url = '/category-faq?wpv-category='.$cat->slug;
+            $url = '/category-faq?wpv-category='.$cat->name;
             $results[] = array('id'=>$cat->term_id, 'description'=>$cat->description, 'name'=>$cat->name, 'count'=>$query->found_posts, 'url'=>$url);
         }
     }
