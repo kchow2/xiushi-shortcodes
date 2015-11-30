@@ -97,7 +97,7 @@ function xs_all_faqs_format_result($title, array $data) {
     if (empty($data))
         return '';
 
-    $res = '<div class="xs-all-faqs"">';
+    $res = '<div class="xs-all-faqs">';
     $res .= '<div class="row hr-content-block">';
     
     //$res .= '<h3>' . $title . '</h3>';
@@ -105,14 +105,14 @@ function xs_all_faqs_format_result($title, array $data) {
         if($category['count'] > 0 || count($category['children']) > 0){
             if(isset($category['children'])){
                 $res .= '<div class="col-sm-6">';
-                $res .= '<h3>' . $category['name'] . ' (' . $category['count'] . ')</h3>';
+                $res .= '<h3>' . $category['description'] . ' <span style="font-size:0.8em;">' . $category['name'] . '</span></h3>'; //$category['count'])
                 //$res .= '<ul>';
                 $res .= '<div class="hr-subcategory-list">';
                 foreach($category['children'] as $category){
                     //$res .= '<li>';
                     $res .= '<div class="hr-subcategory-list-item"><span class="dashicons dashicons-marker hr-dashicon-category" style="color: #CDDC39;line-height: 22px;margin-right: 2px; font-size: 15px;"></span>';
                     $res .= '<a href="' . $category['url'].'">';
-                    $res .= $category['name'] . ' | <span style="font-size: 0.8em">' . $category['description'] . ' (' . $category['count'] . ')</span>';
+                    $res .= $category['description'] . ' | <span style="font-size: 0.8em">' . $category['name'] . ' (' . $category['count'] . ')</span>';
                     $res .= '</a>';  
                     $res .= '</div>';
                     //$res .= '</li>';
