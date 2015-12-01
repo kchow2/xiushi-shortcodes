@@ -112,7 +112,7 @@ function xs_all_faqs_format_result($title, array $data) {
                     //$res .= '<li>';
                     $res .= '<div class="hr-subcategory-list-item"><span class="dashicons dashicons-marker hr-dashicon-category" style="color: #CDDC39;line-height: 22px;margin-right: 2px; font-size: 15px;"></span>';
                     $res .= '<a href="' . $category['url'].'">';
-                    $res .= $category['description'] . ' | <span style="font-size: 0.8em">' . $category['name'] . ' (' . $category['count'] . ')</span>';
+                    $res .= $category['description'] . ' | <span style="font-size: 0.8em">' . $category['name'] . '</span>';
                     $res .= '</a>';  
                     $res .= '</div>';
                     //$res .= '</li>';
