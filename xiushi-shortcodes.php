@@ -10,6 +10,13 @@
  */
 defined('ABSPATH') or die('No script kiddies please!');
 
+function xs_shortcodes_init(){
+    wp_register_style('xs_css', plugins_url('style.css',__FILE__ ));
+    wp_enqueue_style('xs_css');
+}
+add_action('init', xs_shortcodes_init);
+
+
 //print debug info
 function xs_debug_info_sc($atts){
     $postTypes = get_post_types();
@@ -138,3 +145,26 @@ function xs_all_faqs_format_result($title, array $data) {
     return $res;
 }
 
+function xs_tooltip($atts){
+    
+    $linkHTML = "CLICKME";
+    $divId = "xsModal-";
+    
+    if(!isset($atts['slug'])){
+        $contentHTML = "xs-tooltip: slug attribute not set!";
+    }
+    if(!isset($atts['view'])){
+        $contentHTML = "xs-tooltip: view attribute not set!";
+    }
+    else if(function_exists("render_view")){    
+        $divId .= $atts['slug'];
+        $contentHTML = render_view(array('name' => $atts["view"] )) . "slug: ". $atts['slug'];
+    }
+    else{
+        $contentHTML = "xs_tooltip: wpv-views plugin required for this dialog to work properly!";
+    }
+    
+    $ret = '<a href="#'.$divId.'">'.$linkHTML.'</a><div id="'.$divId.'" class="modalDialog"><div><a href="#close" title="Close" class="close">X</a>'.$contentHTML.'</div></div>';
+    return $ret;
+}
+add_shortcode('xs-tooltip', 'xs_tooltip');
