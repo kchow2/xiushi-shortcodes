@@ -14,7 +14,7 @@ function xs_shortcodes_init(){
     wp_register_style('xs_css', plugins_url('style.css',__FILE__ ));
     wp_enqueue_style('xs_css');
 }
-add_action('init', xs_shortcodes_init);
+add_action('init', 'xs_shortcodes_init');
 
 
 //print debug info
