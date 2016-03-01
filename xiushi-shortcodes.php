@@ -63,7 +63,7 @@ function xs_all_faqs_sc($atts) {
     }
     
     //sort top level categories by description
-    usort($resultData, function ($a, $b){return strcasecmp($a['description'], $b['description']);});
+    usort($resultData, function ($a, $b){return strcasecmp($a['name'], $b['name']);});
 
     //Generate the output
     $res = xs_all_faqs_format_result('All FAQs', $resultData);
@@ -145,20 +145,23 @@ function xs_all_faqs_format_result($title, array $data) {
     return $res;
 }
 
+
+//USAGE: [xs-tooltip view="view-name" listingid="xx"]
 function xs_tooltip($atts){
     
     $linkHTML = "CLICKME";
     $divId = "xsModal-";
     
-    if(!isset($atts['slug'])){
-        $contentHTML = "xs-tooltip: slug attribute not set!";
+    if(!isset($atts['listingid'])){
+        $contentHTML = "xs-tooltip: listingid attribute not set!";
     }
-    if(!isset($atts['view'])){
+    else if(!isset($atts['view'])){
         $contentHTML = "xs-tooltip: view attribute not set!";
     }
     else if(function_exists("render_view")){    
-        $divId .= $atts['slug'];
-        $contentHTML = render_view(array('name' => $atts["view"] )) . "slug: ". $atts['slug'];
+        $divId .= $atts['listingid'];
+        //$debugInfo = "<br>DEBUG INFO:<br>view name=".$atts["view"]."<br>listingid=".$atts['listingid']."<br>";
+        $contentHTML = render_view(array('title' => $atts["view"], 'listingid'=>$atts['listingid'] ));
     }
     else{
         $contentHTML = "xs_tooltip: wpv-views plugin required for this dialog to work properly!";
