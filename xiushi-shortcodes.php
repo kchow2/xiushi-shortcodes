@@ -253,3 +253,11 @@ function xs_cpt_link($atts){
     return $ret;
 }
 add_shortcode('xs-cpt-link', 'xs_cpt_link');
+
+add_shortcode( 'wpv-post-param', 'wpv_post_param_shortcode' );
+function wpv_post_param_shortcode( $atts ) {
+  if ( !empty( $atts['var'] ) ) {
+    $var = (array)$_GET[$atts['var']];
+    return esc_html( implode( ', ', $var ) );
+  }
+}
