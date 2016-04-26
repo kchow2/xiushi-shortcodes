@@ -189,7 +189,9 @@ function xs_cpt_link($atts){
         'user-image'=>'user-image',
         'listing'=>'listing',
         'recommended'=>'recommended-posts',
-        'faq'=>'category-faq'
+        'faq'=>'category-faq',
+        'glossary'=>'glossary',
+        'promotion'=>'promotion'
         );
     $typeDesc = array(
         'pointer'=>"&#19987;&#23478;&#25351;&#24341;",
@@ -197,48 +199,30 @@ function xs_cpt_link($atts){
         'user-image'=>"&#28789;&#24863;&#21457;&#25496;",
         'listing'=>"&#21830;&#23478;&#30446;&#24405;",
         'recommended'=>"&#20837;&#38376;&#24517;&#35835;",
-        'faq'=>"&#24120;&#35265;&#38382;&#39064;"
+        'faq'=>"&#24120;&#35265;&#38382;&#39064;",
+        'glossary'=>'&#19987;&#19994;&#26415;&#35821;',
+        'promotion'=>'&#26368;&#26032;&#20248;&#24800;'
     );
-    /*$typeDesc = array(
-        'pointer'=>"\u{4e13}\u{5bb6}\u{6307}\u{5f15}",
-        'news'=>"\u{884c}\u{4e1a}\u{8d44}\u{8baf}",
-        'image'=>"\u{7075}\u{611f}\u{53d1}\u{6398}",
-        'listing'=>"\u{5546}\u{5bb6}\u{76ee}\u{5f55}",
-        'recommended'=>"\u{5165}\u{95e8}\u{5fc5}\u{8bfb}",
-        'faq'=>"\u{5e38}\u{89c1}\u{95ee}\u{9898}"
-    );*/
     
     $postType = isset($postTypes[$atts[type]]) ? $postTypes[$atts[type]] : $atts[type];
     $args = array(
         'post_type'=>$postType,
         'category_name' => $atts['cat'],
     );
+    //If type == 'recommended', if posts exist for (1) the cat and (2) terms "Featured" and "Recommended" exist for Taxonomy "Recommendations" then proceed, if not, discard.
+    if($atts['type'] == 'recommended'){
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'recommendation',
+                'field' => 'slug',
+                'terms' => array( 'featured', 'recommended' )));
+    }
     $the_query = new WP_Query($args);
     $categoryPosts = $the_query->found_posts;
-    
-    //If type == 'recommended', if posts exist for (1) the cat and (2) terms "Featured" and "Recommended" exist for Taxonomy "Recommendations" then proceed, if not, discard.
-    if($categoryPosts > 0 && $atts['type'] == 'recommended'){   
-        $matchingPosts = 0;
-        while ( $the_query->have_posts() ) {           
-            $the_query->the_post();
-            $terms = get_terms('recommendation');
-            $termStrings = array();
-            foreach($terms as $term){
-                $termStrings[] = $term->slug;
-            }
-            if(in_array('featured', $termStrings) || in_array('recommended', $termStrings)){
-                $matchingPosts++;
-                break;
-            }
-	}
-        if($matchingPosts === 0){
-            return $typeDesc['recommended'];
-        }
-    }
 
     $ret = "";
     if($categoryPosts > 0){ //if the cat has posts, output a link
-        $format = '<a href="http://www.xiushi.ca/##TYPE##/?wpv-category=##CAT##">##DESC##</a>';
+        $format = '<a href="http://www.bluemasters.ca/##TYPE##/?wpv-category=##CAT##">##DESC##</a>';
         $typeUrl = array_key_exists($atts['type'], $typeToUrl) ? $typeToUrl[$atts['type']] : $atts['type'];
         $desc = array_key_exists($atts['type'], $typeDesc) ? $typeDesc[$atts['type']] : $atts['type'];
         
