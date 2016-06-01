@@ -222,12 +222,13 @@ function xs_cpt_link($atts){
 
     $ret = "";
     if($categoryPosts > 0){ //if the cat has posts, output a link
-        $format = '<a href="http://www.bluemasters.ca/##TYPE##/?wpv-category=##CAT##">##DESC##</a>';
+        $siteUrl = get_site_url();
+        $format = '<a href="##SITEURL##/##TYPE##/?wpv-category=##CAT##">##DESC##</a>';
         $typeUrl = array_key_exists($atts['type'], $typeToUrl) ? $typeToUrl[$atts['type']] : $atts['type'];
         $desc = array_key_exists($atts['type'], $typeDesc) ? $typeDesc[$atts['type']] : $atts['type'];
         
-        $replace = array('##TYPE##', '##CAT##', '##DESC##', '##COUNT##');
-        $replaceWith = array($typeUrl, $atts['cat'], $desc, $categoryPosts);
+        $replace = array('##SITEURL##', '##TYPE##', '##CAT##', '##DESC##', '##COUNT##');
+        $replaceWith = array($siteUrl, $typeUrl, $atts['cat'], $desc, $categoryPosts);
         $ret = str_replace($replace, $replaceWith, $format);
     }
     else{   //if the cat has no posts, output the desc without link
